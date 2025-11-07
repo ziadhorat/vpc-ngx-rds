@@ -5,8 +5,9 @@ PROJECT_NAME="${project_name}"
 exec > >(tee /var/log/user-data.log|logger -t user-data -s 2>/dev/console) 2>&1
 
 dnf update -y || true
-dnf install -y nginx jq postgresql15 || exit 1
+dnf install -y nginx jq postgresql15 amazon-ssm-agent || exit 1
 
+systemctl enable --now amazon-ssm-agent
 cat > /etc/nginx/conf.d/default.conf <<'EOF'
 server {
     listen 80;
